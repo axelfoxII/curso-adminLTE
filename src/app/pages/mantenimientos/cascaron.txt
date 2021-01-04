@@ -1,0 +1,66 @@
+<div class="container-fluid  animate__animated animate__fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="input-group">
+            <input class="form-control" type="text" name="" placeholder="Buscar Usuario">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-info text-center">
+        <h4 class="alert-heading">Cargando</h4>
+        <i class="fas fa-spin fas fa-sync fa-2x"></i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Usuarios Registrados</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table class="table table-hover text-center text-nowrap">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Avatar</th>
+                <th>Correo</th>
+                <th>Role</th>
+                <th>Auth</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td>FOTO</td>
+                <td>CORREO</td>
+                <td>ROLE</td>
+                <td>AUTH</td>
+                <td><a href="" class="text-warning mr-2" title="editar"><i class="fas fa-pencil-alt"></i></a>
+                  <a href="" class="text-danger" title="borrar"><i class="fas fa-trash-alt"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="#">Anteriror</a></li>
+
+            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

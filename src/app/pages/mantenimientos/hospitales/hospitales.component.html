@@ -1,0 +1,73 @@
+<div class="container-fluid  animate__animated animate__fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="input-group">
+            <input class="form-control" type="text" name="" placeholder="Buscar Hospital..." #txtTermino
+              (keyup)="buscar(txtTermino.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="cargando">
+    <div class="col-12">
+      <div class="alert alert-info text-center">
+        <h4 class="alert-heading">Cargando</h4>
+        <i class="fas fa-spin fas fa-sync fa-2x"></i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!cargando">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Hospitales Registrados {{totalHospitales}}</h3>
+          <div class="text-right">
+            <button class="btn btn-outline-secondary" (click)=" abrirSweetAlert()"><i class="fa fa-plus"></i> Agregar
+              Hospital</button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table class="table table-hover text-center text-nowrap">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th class="w100">Imagen</th>
+                <th>Nombre</th>
+                <th class="w100">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let hospital of hospitales; let i = index;">
+                <td>{{desde + (i+1)}}.</td>
+                <td><img class="avatar cursor" src="{{hospital.img | imagen: 'hospitales'}}" alt=""
+                    (click)="abrirModal(hospital)"></td>
+                <td><input type="text" class="form-control" placeholder="Nombre del hospital"
+                    [(ngModel)]="hospital.nombre"></td>
+                <td><a (click)="guadarCambios(hospital)" class="text-warning mr-2 cursor" title="Guardar Cambio"><i
+                      class="fas fa-pencil-alt"></i></a>
+                  <a (click)="eliminarHospital(hospital)" class="text-danger" title="borrar"><i
+                      class="fas fa-trash-alt"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><button class="btn btn-outline-secondary mr-1" (click)="cambiarPagina(-5)"
+                style="cursor: pointer;"><i class="fas fa-angle-left"></i> Anterior</button></li>
+
+            <li class="page-item"><button class="btn btn-outline-secondary" (click)="cambiarPagina(5)"
+                style="cursor: pointer;">Siguiente <i class="fas fa-angle-right"></i></button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
