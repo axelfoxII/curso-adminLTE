@@ -8,6 +8,7 @@ import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
+import Swal from 'sweetalert2';
 
 const base_url = environment.base_url;
 declare const gapi: any;
@@ -35,8 +36,17 @@ export class UsuarioService {
     });
   }
 
+  guardarLocalStorage(token: string, menu: any) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', JSON.stringify(menu));
+  }
+
   get token(): string {
     return localStorage.getItem('token') || '';
+  }
+
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role;
   }
 
   get uid(): string {
@@ -56,6 +66,7 @@ export class UsuarioService {
   // tslint:disable-next-line: typedef
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
     this.auth2.signOut().then(() => {
       this.ngZone.run(() => {
         this.router.navigateByUrl('/login');
@@ -74,7 +85,7 @@ export class UsuarioService {
       map((resp: any) => {
         const { email, nombre, google, img = '', role, uid } = resp.usuario;
         this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu);
         return true;
       }),
       catchError(error => of(false))
@@ -84,12 +95,19 @@ export class UsuarioService {
   // tslint:disable-next-line: typedef
   crearUsuario(formData: RegisterForm) {
 
-    return this.http.post(`${base_url}/usuarios`, formData)
-      .pipe(
-        tap((resp: any) => {
-          localStorage.setItem('token', resp.token);
-        })
-      );
+    try {
+      return this.http.post(`${base_url}/usuarios`, formData)
+        .pipe(
+          tap((resp: any) => {
+            this.guardarLocalStorage(resp.token, resp.menu);
+            Swal.fire('Usuario creado', resp.email, 'success')
+          })
+        );
+    } catch (error) {
+      console.log(error);
+      Swal.fire(error.error.mensaje, error.error.error.message, 'success')
+
+    }
   }
   // tslint:disable-next-line: typedef
   actualizarPerfil(data: { email: string, nombre: string, role: string }) {
@@ -106,7 +124,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/login`, formData)
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
+          this.guardarLocalStorage(resp.token, resp.menu);
         })
       );
   }
@@ -116,7 +134,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/login/google`, { token })
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token);
+          this.guardarLocalStorage(resp.token, resp.menu);
         })
       );
   }

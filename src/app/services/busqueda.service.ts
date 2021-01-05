@@ -40,6 +40,13 @@ export class BusquedaService {
     return resultados;
   }
 
+  busquedaGlobal(termino: string) {
+
+    const url = `${base_url}/todo/${termino}`;
+    return this.http.get(url, this.headers);
+
+  }
+
   // tslint:disable-next-line: typedef
   buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string) {
     const url = `${base_url}/todo/coleccion/${tipo}/${termino.trim()}`;
